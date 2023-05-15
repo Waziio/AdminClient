@@ -1,0 +1,8 @@
+CREATE TABLE Client (
+	id_client TINYINT PRIMARY KEY AUTO_INCREMENT,
+    nom_client VARCHAR(50) NOT NULL,
+    prenom_client VARCHAR(50) NOT NULL, 
+    address_client VARCHAR(50) NOT NULL,
+    date_client DATETIME NOT NULL,
+    mail_client VARCHAR(100) NOT NULL
+);
