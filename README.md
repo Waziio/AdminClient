@@ -4,7 +4,7 @@ My first API, made in NodeJS with express, sequelize and mysql.
 
 You can create an account, log in (a jwt is returned to you), view and administer customer data.
 
-**TODO** : make a ReactJS admin panel using this API.
+**TODO** : make a ReactJS/VueJS admin panel using this API.
 ## Setup
 ```git clone https://github.com/Waziio/node_api_AdminClient.git```  
 
