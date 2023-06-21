@@ -42,6 +42,10 @@ const Client = db.define("client", {
     type: DataTypes.STRING(50),
     allowNull: false,
   },
+  profile_picture: {
+    type: DataTypes.STRING(),
+    allowNull: true
+  }
 });
 
 export default Client;
