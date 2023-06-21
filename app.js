@@ -16,6 +16,6 @@ db.sync()
     console.log(error);
   });
 
-app.listen(8080, () => {
+app.listen(8000, () => {
   console.log("Lancé");
 });

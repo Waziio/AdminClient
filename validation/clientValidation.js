@@ -10,6 +10,7 @@ const clientValidation = (body) => {
     postalcode: Joi.string().min(1).max(10).trim().required(),
     city: Joi.string().min(1).max(50).uppercase().trim().required(),
     country: Joi.string().min(1).max(50).trim().required(),
+    profile_picture: Joi.string().trim().base64()
   });
 
   return ClientSchema.validate(body);
