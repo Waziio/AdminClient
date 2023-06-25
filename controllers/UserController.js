@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "../config/jwtConfig.js";
 
-
 // POST /signup
 const createUser = (req, res) => {
   const body = req.body;
@@ -27,7 +26,6 @@ const createUser = (req, res) => {
     .catch((error) => res.status(500).json(error.errors[0].message));
 };
 
-
 // POST /login
 const login = (req, res) => {
   const body = req.body;
@@ -44,6 +42,8 @@ const login = (req, res) => {
           if (!result) return res.status(404).json({ message: "Mot de passe incorrect" });
           res.status(200).json({
             id: user.id,
+            lastname: user.lastname,
+            firstname: user.firstname,
             mail: user.mail,
             message: "Connecté(e)",
             token: jwt.sign({ id: user.id }, config.SECRET_KEY, { expiresIn: "12h" }),
@@ -54,4 +54,45 @@ const login = (req, res) => {
     .catch((error) => res.status(500).json(error));
 };
 
-export { createUser, login };
+// GET /user
+const getAllUsers = (req, res) => {
+  User.findAll({
+    attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+  })
+    .then((users) => {
+      res.status(200).json(users);
+    })
+    .catch((error) => res.status(500).json(error));
+};
+
+// GET /user/:id
+const getOneUser = (req, res) => {
+  const { id } = req.params;
+  User.findByPk(id, {
+    attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+  })
+    .then((user) => {
+      if (!user) return res.status(404).json({ message: "Cet utilisateur n'existe pas ..." });
+      res.status(200).json(user);
+    })
+    .catch((error) => res.status(500).json(error));
+};
+
+// PUT /user/:id
+const updateUser = (req, res) => {
+  const { error } = userValidation(req.body).UserValidationUpdate;
+  const { id } = req.params;
+  const body = req.body;
+
+  if (error) return res.status(401).json(error.details[0].message);
+
+  User.findByPk(id).then((user) => {
+    if (!user) return res.status(404).json({ message: "Cet utilisateur n'existe pas ..." });
+
+    User.update(body, { where: { id: id } })
+      .then(() => res.status(200).json({ message: "Les informations de l'utilisateur ont été mises à jour !" }))
+      .catch((error) => res.status(500).json(error));
+  });
+};
+
+export { createUser, login, updateUser, getAllUsers, getOneUser };

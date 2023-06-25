@@ -13,9 +13,17 @@ const userValidation = (body) => {
     password: Joi.string().min(8).max(20).trim().required()
   });
 
+  const UserValidationUpdate = Joi.object({
+    lastname: Joi.string().min(1).max(50).trim(),
+    firstname: Joi.string().min(1).max(50).trim(),
+    mail: Joi.string().min(1).max(100).trim(),
+    password: Joi.string().min(8).max(20).trim()
+  });
+
   return {
     UserValidationSignUp : UserValidationSignUp.validate(body),
-    UserValidationLogin : UserValidationLogin.validate(body)
+    UserValidationLogin : UserValidationLogin.validate(body),
+    UserValidationUpdate: UserValidationUpdate.validate(body)
   }
 };
 

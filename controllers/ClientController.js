@@ -1,7 +1,6 @@
 import Client from "../models/client.js";
 import clientValidation from "../validation/clientValidation.js";
 
-
 // GET /client
 const getAllClients = (req, res) => {
   Client.findAll({
@@ -26,9 +25,9 @@ const getOneClient = (req, res) => {
 
 // POST /client
 const createClient = (req, res) => {
-  const { error } = clientValidation(req.body);
+  const { error } = clientValidation(req.body).ClientValidationCreate;
 
-  if (error) return res.status(401).json(error.details[0].message);
+  if (error) return res.status(400).json(error.details[0].message);
 
   Client.create({ ...req.body })
     .then(() => {
@@ -39,8 +38,12 @@ const createClient = (req, res) => {
 
 // PUT /client/:id
 const updateClient = (req, res) => {
+  const { error } = clientValidation(req.body).ClientValidationUpdate;
   const { id } = req.params;
   const body = req.body;
+
+  if (error) return res.status(400).json(error.details[0].message);
+
   Client.findByPk(id).then((client) => {
     if (!client) return res.status(404).json({ message: "Ce client n'existe pas ..." });
 
