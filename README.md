@@ -49,6 +49,7 @@ Check the .env file
 - **postalcode**
 - **city**
 - **country**
+- **profile_picture**
 
 ```PUT /client/:id``` : Modify informations of a client  
 
