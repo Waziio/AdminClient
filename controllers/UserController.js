@@ -3,6 +3,7 @@ import userValidation from "../validation/userValidation.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { config } from "../config/jwtConfig.js";
+import { generateAccessToken, generateRenewToken } from "../middlewares/auth.js";
 
 // POST /signup
 const createUser = (req, res) => {
@@ -40,18 +41,42 @@ const login = (req, res) => {
         .compare(body.password, user.password)
         .then((result) => {
           if (!result) return res.status(404).json({ message: "Mot de passe incorrect" });
+          const accessToken = generateAccessToken(user);
+          const renewToken = generateRenewToken(user);
           res.status(200).json({
             id: user.id,
             lastname: user.lastname,
             firstname: user.firstname,
             mail: user.mail,
             message: "Connecté(e)",
-            token: jwt.sign({ id: user.id }, config.SECRET_KEY, { expiresIn: "12h" }),
+            token: accessToken,
+            renew_token: renewToken,
           });
         })
         .catch((error) => res.status(500).json(error));
     })
     .catch((error) => res.status(500).json(error));
+};
+
+const renewToken = (req, res) => {
+  const { authorization } = req.headers;
+  const token = authorization.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "token_missing" });
+  }
+
+  jwt.verify(token, config.RENEW_SECRET_KEY, (err, user) => {
+    if (err) {
+      return res.status(401).json({ message: "token_invalid" });
+    }
+    User.findByPk(user.id).then(() => {
+      delete user.iat;
+      delete user.exp;
+      const renew_token = generateAccessToken(user);
+      res.json({ token: renew_token });
+    });
+  });
 };
 
 // GET /user
@@ -95,4 +120,4 @@ const updateUser = (req, res) => {
   });
 };
 
-export { createUser, login, updateUser, getAllUsers, getOneUser };
+export { createUser, login, updateUser, getAllUsers, getOneUser, renewToken };

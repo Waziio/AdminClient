@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getAllClients, getOneClient, createClient, updateClient, deleteClient } from "../controllers/ClientController.js";
-import { createUser, getAllUsers, getOneUser, login, updateUser } from "../controllers/UserController.js";
-import passport from "passport";
+import { createUser, getAllUsers, getOneUser, login, renewToken, updateUser } from "../controllers/UserController.js";
+import { verifyToken } from "../middlewares/auth.js";
 
 const router = Router();
 
@@ -9,17 +9,17 @@ const router = Router();
 router.post("/signup", createUser);
 router.post("/login", login);
 
-// Need jwt
-router.use(passport.authenticate("jwt", { session: false }));
 // Client
-router.get("/client", getAllClients);
-router.get("/client/:id", getOneClient);
-router.post("/client", createClient);
-router.put("/client/:id", updateClient);
-router.delete("/client/:id", deleteClient);
+router.get("/client", verifyToken, getAllClients);
+router.get("/client/:id", verifyToken, getOneClient);
+router.post("/client", verifyToken, createClient);
+router.put("/client/:id", verifyToken, updateClient);
+router.delete("/client/:id", verifyToken, deleteClient);
 // User
-router.get("/user", getAllUsers);
-router.get("/user/:id", getOneUser);
-router.put("/user/:id", updateUser);
+router.get("/user", verifyToken, getAllUsers);
+router.get("/user/:id", verifyToken, getOneUser);
+router.put("/user/:id", verifyToken, updateUser);
+
+router.get("/renew", renewToken);
 
 export default router;
