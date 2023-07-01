@@ -8,6 +8,7 @@ const router = Router();
 // Authentication
 router.post("/signup", createUser);
 router.post("/login", login);
+router.get("/renew", renewToken);
 
 // Client
 router.get("/client", verifyToken, getAllClients);
@@ -20,6 +21,5 @@ router.get("/user", verifyToken, getAllUsers);
 router.get("/user/:id", verifyToken, getOneUser);
 router.put("/user/:id", verifyToken, updateUser);
 
-router.get("/renew", renewToken);
 
 export default router;
