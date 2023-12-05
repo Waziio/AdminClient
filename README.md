@@ -1,22 +1,32 @@
-# node_api_AdminClient
+# AdminClient
 ## Intro
-My first API, made in NodeJS with express, sequelize and mysql.
 
-You can create an account, log in (a jwt is returned to you), view and administer customer data.
+This project was my first experience with VueJS and with Express. (Finished on June 2023)
 
-**TODO** : make a ReactJS/VueJS admin panel using this API.
+The front folder contains a VueJS app, using PrimeVue components
+The back folder contains my first API, made with Express, Sequelize and MySQL.
+
+You can create an account, log in (using JWT), view and administer customer data.
+
+
 ## Setup
-```git clone https://github.com/Waziio/node_api_AdminClient.git```  
+```git clone https://github.com/Waziio/AdminClient.git```  
 
-```cd node_api_AdminClient```
+### Front dependencies
+```cd AdminClient/front```
+
+```npm install```
+
+### Back dependencies
+```cd AdminClient/back```
 
 ```npm install```
 
 ## Configuration
 
-Check the .env file
+Check the /back/.env file
 
-## Routes
+## API Routes
 
 ### Authentication
  ```POST /signup```   : Create an account  
