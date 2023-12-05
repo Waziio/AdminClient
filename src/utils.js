@@ -1,5 +1,7 @@
 import axios from "axios";
 
+// Utils functions
+
 export function getOneClient(id) {
   const token = localStorage.getItem("token");
   axios.get(`http://localhost:8000/client/${id}`, { headers: { Authorization: `Bearer ${token}` } }).then((result) => {
