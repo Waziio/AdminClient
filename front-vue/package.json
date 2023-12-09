@@ -1,0 +1,27 @@
+{
+  "name": "adminclient_front",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.0",
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/free-regular-svg-icons": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
+    "axios": "^1.4.0",
+    "primeflex": "^3.3.1",
+    "primeicons": "^6.0.1",
+    "primevue": "^3.29.2",
+    "vue": "^3.2.13",
+    "vue-router": "^4.2.2"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^8.43.0",
+    "eslint-plugin-vue": "^9.15.0"
+  }
+}
