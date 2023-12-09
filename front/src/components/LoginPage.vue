@@ -24,7 +24,8 @@ export default {
           router.push("/client");
         })
         .catch((error) => {
-          console.error(error);
+          this.loading = false;
+          console.log(error)
         });
     },
   },
@@ -45,7 +46,7 @@ export default {
 <template>
   <div class="flex w-6 mx-auto align-items-center justify-content-center gap-3">
     <h1 class="text-6xl text-primary">AdminClient</h1>
-    <font-awesome-icon icon="users-gear" class="text-6xl" style="color: #64b5f6" />
+    <font-awesome-icon icon="users-gear" class="text-6xl" style="color: #64b5f6"/>
   </div>
 
   <form class="w-4 mt-5 mx-auto">
