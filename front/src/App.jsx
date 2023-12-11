@@ -1,19 +1,37 @@
-import "./App.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Signin from "./pages/Signin";
-import { PrimeReactProvider } from "primereact/api";
-import "primereact/resources/themes/vela-blue/theme.css";
+import './App.css'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/provider';
+import Signin from './pages/Signin';
+import { extendTheme } from '@chakra-ui/theme-utils';
+
+const router = createBrowserRouter([
+  { path: "/signin", element: <Signin></Signin> },
+]);
+
+const theme = extendTheme({
+  styles: {
+    global: {
+      body: {
+        backgroundColor: "#303030",
+        color: "white",
+      },
+    },
+  },
+  colors: {
+    primary: "#79C1F8",
+    secondary: "#303030",
+    third: "#FFFFFF",
+  },
+});
 
 function App() {
-  const router = createBrowserRouter([{ path: "/signin", element: <Signin></Signin> }]);
+  
 
   return (
-    <>
-      <PrimeReactProvider>
-        <RouterProvider router={router} />
-      </PrimeReactProvider>
-    </>
-  );
+    <ChakraProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ChakraProvider>
+  )
 }
 
-export default App;
+export default App
