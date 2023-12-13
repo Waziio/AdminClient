@@ -1,9 +1,29 @@
 import { Button } from "@chakra-ui/button";
 import { Input } from "@chakra-ui/input";
 import { Heading } from "@chakra-ui/layout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AuthService from "../services/AuthService.js";
+import { useState } from "react";
 
 export default function Signin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  async function handleSigninForm() {
+    const auth = new AuthService();
+    const data = await auth.signin(email, password);
+    if (data) {
+      localStorage.setItem("jwt", data?.jwt);
+      localStorage.setItem("isConnected", true);
+      localStorage.setItem("firstname", data?.firstname);
+      localStorage.setItem("lastname", data?.lastname);
+      navigate("/");
+    } else {
+      // implement error notification
+      console.log("error")
+    }
+  }
   return (
     <>
       <div id="signin-container" className="h-screen flex flex-col justify-center items-center">
@@ -18,17 +38,37 @@ export default function Signin() {
             <label htmlFor="email-input" className="font-medium">
               Adresse email
             </label>
-            <Input id="email-input" type="email" variant="flushed" borderBottomWidth={"revert"} borderBottomColor={"third"} focusBorderColor="primary"></Input>
+            <Input
+              id="email-input"
+              type="email"
+              variant="flushed"
+              borderBottomWidth={"revert"}
+              borderBottomColor={"third"}
+              focusBorderColor="primary"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            ></Input>
           </div>
           <div id="password-container">
             <label htmlFor="password-input" className="font-medium">
               Mot de passe
             </label>
-            <Input id="password-input" type="password" variant="flushed" borderBottomWidth={"revert"} borderBottomColor={"third"} focusBorderColor="primary"></Input>
+            <Input
+              id="password-input"
+              type="password"
+              variant="flushed"
+              borderBottomWidth={"revert"}
+              borderBottomColor={"third"}
+              focusBorderColor="primary"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            ></Input>
           </div>
           <div id="footer-form" className="h-2/5 flex flex-col items-center mt-5">
             <div id="btn-container" className="h-20 flex justify-center items-end">
-              <Button bgColor={"primary"} size={"lg"}>
+              <Button bgColor={"primary"} size={"lg"} onClick={async () => await handleSigninForm()}>
                 Se connecter
               </Button>
             </div>

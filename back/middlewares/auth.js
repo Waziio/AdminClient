@@ -4,11 +4,11 @@ import { config } from "../config/jwtConfig.js";
 
 export const verifyToken = (req, res, next) => {
   const { authorization } = req.headers;
+  if(!authorization) return res.status(401).json({ message: "token_missing" });
+  
   const token = authorization.split(" ")[1];
 
-  if (!token) {
-    return res.status(401).json({ message: "token_missing" });
-  }
+  if (!token) return res.status(401).json({ message: "token_missing" });
 
   jwt.verify(token, config.SECRET_KEY, (err, user) => {
     if (err) {
