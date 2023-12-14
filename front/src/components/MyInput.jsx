@@ -1,22 +1,20 @@
-import { Input } from '@chakra-ui/react'
+/* eslint-disable react/prop-types */
+import { Input } from "@chakra-ui/react";
 
-export default function MyInput({ id, type, onChange, label }) {
+export default function MyInput({ id, type, onChange, placeholder }) {
   return (
     <>
-      <label htmlFor={id ?? ''} className="font-medium">
-        {label ?? ''}
-      </label>
-      <Input
-        id={id ?? undefined}
-        type={type ?? 'text'}
-        variant="flushed"
-        borderBottomWidth={'revert'}
-        borderBottomColor={'third'}
-        focusBorderColor="primary"
-        onChange={onChange}
-        minLength={type === 'password' ? 8 : undefined}
-        maxLength={type === 'password' ? 20 : undefined}
-      ></Input>
+        <Input
+          id={id ?? undefined}
+          type={type ?? "text"}
+          borderColor={"primary"}
+          onChange={onChange}
+          placeholder={placeholder ?? ""}
+          minLength={type === "password" ? 8 : undefined}
+          maxLength={type === "password" ? 20 : undefined}
+          size={"lg"}
+          style={{"borderWidth": "2px"}}
+        ></Input>
     </>
-  )
+  );
 }
