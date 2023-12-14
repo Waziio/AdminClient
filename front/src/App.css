@@ -1,0 +1,9 @@
+.card {
+    height: 100%
+}
+
+.card:hover {
+    cursor: pointer;
+    height: 105%;
+    transition: height 0.3s;
+}

@@ -4,10 +4,12 @@ import { ChakraProvider } from '@chakra-ui/provider'
 import Signin from './pages/Signin'
 import { extendTheme } from '@chakra-ui/theme-utils'
 import Signup from './pages/Signup'
+import Home from './pages/Home'
 
 const router = createBrowserRouter([
   { path: '/signin', element: <Signin></Signin> },
   { path: '/signup', element: <Signup></Signup> },
+  { path: '/', element: <Home></Home> },
 ])
 
 const theme = extendTheme({

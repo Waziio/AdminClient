@@ -43,7 +43,7 @@ const Client = db.define("client", {
     allowNull: false,
   },
   profile_picture: {
-    type: DataTypes.STRING(),
+    type: DataTypes.TEXT(),
     allowNull: true
   }
 });
