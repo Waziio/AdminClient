@@ -20,7 +20,7 @@ export default function Signin() {
       localStorage.setItem("isConnected", true);
       localStorage.setItem("firstname", data?.firstname);
       localStorage.setItem("lastname", data?.lastname);
-      navigate("/");
+      navigate("/client");
     } else {
       // implement error notification
       console.log("error");

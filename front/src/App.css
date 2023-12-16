@@ -10,9 +10,16 @@
 }
 
 .myInput:hover {
-  border-color: #79c1f8 !important;
+  border-color: #64b5f6 !important;
 }
 
-.profile-picture {
-  
+input[type="file"]::file-selector-button {
+  background-color: #64b5f6;
+  color: #303030;
+  font-weight: 500;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
+
