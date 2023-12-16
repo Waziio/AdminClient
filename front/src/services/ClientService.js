@@ -14,7 +14,7 @@ class ClientService {
             Authorization: `Bearer ${this.jwt}`
         }
       });
-      return result;
+      return result.data;
     } catch (err) {
       console.log(err);
       return false;

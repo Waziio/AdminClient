@@ -6,21 +6,15 @@ import ClientList from "../components/clientList";
 export default function Home() {
   const [clients, setClients] = useState([]);
   async function fetchData() {
-    try {
-      const jwt = localStorage.getItem("accessToken");
-      const clientService = new ClientService(jwt);
-      const result = await clientService.getAll();
-      setClients(result.data);
-      console.log(clients);
-    } catch (err) {
-      console.log("error " + err);
-    }
+    const jwt = localStorage.getItem("accessToken");
+    const clientService = new ClientService(jwt);
+    const data = await clientService.getAll();
+    if(!data) console.log("error fetching data")
+    setClients(data);
   }
 
   useEffect(() => {
-    fetchData().then(() => {
-      console.log("fetch")
-    });
+    fetchData();
   }, []);
 
   return (
@@ -31,7 +25,7 @@ export default function Home() {
 
       <div id="clients-container" className="w-full flex justify-center mt-5">
         <div id="clients" className="w-1/3 grid grid-cols-3 gap-x-5 gap-y-5 items-center">
-          <ClientList clients={clients}/>
+          <ClientList clients={clients} />
         </div>
       </div>
     </div>
