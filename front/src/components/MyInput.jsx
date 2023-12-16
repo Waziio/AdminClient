@@ -14,6 +14,7 @@ export default function MyInput({ id, type, onChange, placeholder }) {
           maxLength={type === "password" ? 20 : undefined}
           size={"lg"}
           style={{"borderWidth": "2px"}}
+          className="myInput"
         ></Input>
     </>
   );

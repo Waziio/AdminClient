@@ -36,11 +36,11 @@ const login = (req, res) => {
 
   User.findOne({ where: { mail: body.mail } })
     .then((user) => {
-      if (!user) return res.status(404).json({ message: "Adresse mail incorrecte" });
+      if (!user) return res.status(400).json({ message: "Adresse mail incorrecte" });
       bcrypt
         .compare(body.password, user.password)
         .then((result) => {
-          if (!result) return res.status(404).json({ message: "Mot de passe incorrect" });
+          if (!result) return res.status(400).json({ message: "Mot de passe incorrect" });
           const accessToken = generateAccessToken(user);
           const renewToken = generateRenewToken(user);
           res.status(200).json({
