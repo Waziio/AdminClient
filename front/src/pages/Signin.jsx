@@ -4,17 +4,21 @@ import AuthService from "../services/AuthService.js";
 import { useState } from "react";
 import Title from "../components/title.jsx";
 import MyInput from "../components/MyInput.jsx";
+import ErrorAlert from "../components/ErrorAlert.jsx";
+import { useDisclosure } from "@chakra-ui/react";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   async function handleSigninForm(e) {
     e.preventDefault();
     const auth = new AuthService();
     const data = await auth.signin(email, password);
-    if (data) {
+    if (typeof data === "object") {
       localStorage.setItem("accessToken", data?.token);
       localStorage.setItem("renewToken", data?.renew_token);
       localStorage.setItem("isConnected", true);
@@ -22,16 +26,16 @@ export default function Signin() {
       localStorage.setItem("lastname", data?.lastname);
       localStorage.setItem("firstname", data?.firstname);
       localStorage.setItem("email", data?.mail);
-      console.log(data);
       navigate("/client");
     } else {
-      // implement error notification
-      console.log("error");
+      setErrorMessage(data);
+      onOpen();
     }
   }
   return (
     <>
       <form id="signin-container" className="h-screen flex flex-col justify-center items-center">
+        <ErrorAlert errorMessage={errorMessage} isOpen={isOpen} onClose={onClose}></ErrorAlert>
         <div id="title-container" className="h-1/6">
           <Title></Title>
         </div>

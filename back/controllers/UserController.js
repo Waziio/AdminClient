@@ -32,7 +32,7 @@ const login = (req, res) => {
   const body = req.body;
   const { error } = userValidation(req.body).UserValidationLogin;
 
-  if (error) return res.status(401).json(error.details[0].message);
+  if (error) return res.status(400).json(error.details[0].message);
 
   User.findOne({ where: { mail: body.mail } })
     .then((user) => {
