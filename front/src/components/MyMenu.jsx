@@ -12,9 +12,6 @@ export default function MyMenu({ onOpen }) {
           <MenuItem bgColor={"secondary"} onClick={onOpen} icon={<span className="material-symbols-outlined">add</span>}>
             Ajouter
           </MenuItem>
-          <MenuItem bgColor={"secondary"} icon={<span className="material-symbols-outlined">delete</span>}>
-            Supprimer
-          </MenuItem>
         </MenuGroup>
         <MenuDivider />
         <MenuGroup title="Profil">
