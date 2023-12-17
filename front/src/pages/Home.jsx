@@ -3,7 +3,7 @@ import Title from "../components/title";
 import ClientList from "../components/clientList";
 import MyMenu from "../components/MyMenu";
 import { AddClientPopup } from "../components/AddClientPopup";
-import { Spinner, useDisclosure } from "@chakra-ui/react";
+import { Heading, Spinner, useDisclosure } from "@chakra-ui/react";
 import { Await, useLoaderData } from "react-router-dom";
 
 export default function Home() {
@@ -20,15 +20,19 @@ export default function Home() {
           <Title></Title>
         </div>
 
-        <div id="clients-container" className="w-full flex justify-center mt-40">
-          <div id="clients" className="w-1/3 grid grid-cols-3 gap-x-5 gap-y-5 items-center">
-            <Suspense fallback={<Spinner />}>
-              <Await resolve={clients}>
-                <ClientList clients={clients} />
-              </Await>
-            </Suspense>
+        {clients && clients?.length > 0 ? (
+          <div id="clients-container" className="w-full flex justify-center mt-40">
+            <div id="clients" className="w-1/3 grid grid-cols-3 gap-x-5 gap-y-5 items-center">
+              <Suspense fallback={<Spinner />}>
+                <Await resolve={clients}>
+                  <ClientList clients={clients} />
+                </Await>
+              </Suspense>
+            </div>
           </div>
-        </div>
+        ) : (
+          <Heading size={"md"} className="mt-40">Aucun client à afficher ...</Heading>
+        )}
       </div>
       <AddClientPopup isOpen={isOpenAddClient} onClose={onCloseAddClient}></AddClientPopup>
     </>

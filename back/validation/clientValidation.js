@@ -1,8 +1,10 @@
 import Joi from "joi";
 
 const clientValidation = (body) => {
+  if (body?.lastname) body.lastname = body.lastname.toUpperCase();
+  if (body?.city) body.city = body.city.toUpperCase();
   const ClientSchema = Joi.object({
-    lastname: Joi.string().min(1).max(50).uppercase().trim().required(),
+    lastname: Joi.string().min(1).max(50).uppercase({ force: true }).trim().required(),
     firstname: Joi.string().min(1).max(50).trim().required(),
     date: Joi.date().iso().max("now").required(),
     mail: Joi.string().min(1).max(100).trim().required(),
@@ -14,7 +16,7 @@ const clientValidation = (body) => {
   });
 
   const ClientValidationUpdate = Joi.object({
-    lastname: Joi.string().min(1).max(50).uppercase().trim(),
+    lastname: Joi.string().min(1).max(50).uppercase({ force: true }).trim(),
     firstname: Joi.string().min(1).max(50).trim(),
     date: Joi.date().iso().max("now"),
     mail: Joi.string().min(1).max(100).trim(),

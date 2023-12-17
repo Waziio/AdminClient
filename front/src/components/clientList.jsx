@@ -11,7 +11,7 @@ export default function ClientList({ clients }) {
 
   return (
     <>
-      {clients.map((client) => (
+      { clients.map((client) => (
         <div key={client?.id} onClick={() => goToClientPage(client?.id)}>
           <ClientCard firstname={client?.firstname} lastname={client?.lastname} profilePicture={client?.profile_picture}></ClientCard>
         </div>
