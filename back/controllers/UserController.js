@@ -109,7 +109,7 @@ const updateUser = (req, res) => {
   const { id } = req.params;
   const body = req.body;
 
-  if (error) return res.status(401).json(error.details[0].message);
+  if (error) return res.status(400).json(error.details[0].message);
 
   User.findByPk(id).then((user) => {
     if (!user) return res.status(404).json({ message: "Cet utilisateur n'existe pas ..." });

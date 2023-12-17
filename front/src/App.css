@@ -36,3 +36,10 @@ input[type="file"] {
   border: 2px solid #64b5f6;
 }
 
+#back-button {
+  transition: font-size 0.3s;
+}
+
+#back-button:hover {
+  font-size: 3.25rem;
+}

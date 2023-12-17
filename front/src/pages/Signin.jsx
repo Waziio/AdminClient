@@ -18,8 +18,11 @@ export default function Signin() {
       localStorage.setItem("accessToken", data?.token);
       localStorage.setItem("renewToken", data?.renew_token);
       localStorage.setItem("isConnected", true);
-      localStorage.setItem("firstname", data?.firstname);
+      localStorage.setItem("id_user", data?.id);
       localStorage.setItem("lastname", data?.lastname);
+      localStorage.setItem("firstname", data?.firstname);
+      localStorage.setItem("email", data?.mail);
+      console.log(data);
       navigate("/client");
     } else {
       // implement error notification

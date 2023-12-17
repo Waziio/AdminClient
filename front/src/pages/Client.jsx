@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { Spinner } from "@chakra-ui/react";
 import ClientInfos from "../components/ClientInfos";
 import ClientService from "../services/ClientService";
+import BackButton from "../components/BackButtton";
 
 export default function Client() {
   const client = useLoaderData();
@@ -20,6 +21,7 @@ export default function Client() {
 
   return (
     <div id="client-page" className="h-screen">
+        <BackButton></BackButton>
       <div id="title-container" className="h-1/4 pt-5">
         <Title></Title>
       </div>

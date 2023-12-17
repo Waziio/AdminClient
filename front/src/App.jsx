@@ -7,6 +7,8 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import ClientService from "./services/ClientService";
 import Client from "./pages/Client";
+import Account from "./pages/Account";
+import UserService from "./services/UserService";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/client" replace /> },
@@ -32,7 +34,19 @@ const router = createBrowserRouter([
         const clientService = new ClientService();
         return clientService.getById(params?.id);
       } catch (err) {
-        console.log(err)
+        console.log(err);
+      }
+    },
+  },
+  {
+    path: "/account",
+    element: <Account></Account>,
+    loader: () => {
+      try {
+        const userService = new UserService();
+        return userService.getById(localStorage.getItem("id_user"));
+      } catch (err) {
+        console.log(err);
       }
     },
   },
