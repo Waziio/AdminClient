@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Input } from "@chakra-ui/react";
 
-export default function MyInput({ id, type, onChange, placeholder }) {
+export default function MyInput({ id, type, onChange, placeholder, value }) {
   return (
     <>
         <Input
@@ -15,6 +15,7 @@ export default function MyInput({ id, type, onChange, placeholder }) {
           size={"lg"}
           style={{"borderWidth": "2px"}}
           className="myInput"
+          value={value ?? undefined}
         ></Input>
     </>
   );

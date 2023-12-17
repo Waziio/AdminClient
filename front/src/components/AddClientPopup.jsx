@@ -20,7 +20,7 @@ export function AddClientPopup({ isOpen, onClose }) {
   const navigate = useNavigate()
 
   async function addClient() {
-    const clientService = new ClientService(localStorage.getItem("accessToken"));
+    const clientService = new ClientService();
     const data = await clientService.create(lastname, firstname, date, email, address, postalCode, city, country, profilePicture);
     if (data) {
       navigate("/client")

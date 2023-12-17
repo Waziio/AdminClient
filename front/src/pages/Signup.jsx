@@ -16,8 +16,9 @@ export default function Signup() {
     e.preventDefault();
     const auth = new AuthService();
     const data = await auth.signup(firstname, lastname, email, password);
-    if (!data) console.log(data); // TODO : notif error
-    navigate("/signin");
+    if (data) {
+      navigate("/signin");
+    }
   }
 
   return (

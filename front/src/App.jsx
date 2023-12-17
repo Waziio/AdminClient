@@ -6,15 +6,36 @@ import { extendTheme } from "@chakra-ui/theme-utils";
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import ClientService from "./services/ClientService";
+import Client from "./pages/Client";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/client" replace /> },
   { path: "/signin", element: <Signin></Signin> },
   { path: "/signup", element: <Signup></Signup> },
-  { path: "/client", element: <Home></Home>, loader: () => {
-    const clientService = new ClientService(localStorage.getItem("accessToken"));
-    return clientService.getAll()
-  } },
+  {
+    path: "/client",
+    element: <Home></Home>,
+    loader: () => {
+      try {
+        const clientService = new ClientService();
+        return clientService.getAll();
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+  {
+    path: "/client/:id",
+    element: <Client></Client>,
+    loader: ({ params }) => {
+      try {
+        const clientService = new ClientService();
+        return clientService.getById(params?.id);
+      } catch (err) {
+        console.log(err)
+      }
+    },
+  },
 ]);
 
 const theme = extendTheme({
