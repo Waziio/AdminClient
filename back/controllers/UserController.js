@@ -32,15 +32,15 @@ const login = (req, res) => {
   const body = req.body;
   const { error } = userValidation(req.body).UserValidationLogin;
 
-  if (error) return res.status(401).json(error.details[0].message);
+  if (error) return res.status(400).json(error.details[0].message);
 
   User.findOne({ where: { mail: body.mail } })
     .then((user) => {
-      if (!user) return res.status(404).json({ message: "Adresse mail incorrecte" });
+      if (!user) return res.status(400).json({ message: "Adresse mail incorrecte" });
       bcrypt
         .compare(body.password, user.password)
         .then((result) => {
-          if (!result) return res.status(404).json({ message: "Mot de passe incorrect" });
+          if (!result) return res.status(400).json({ message: "Mot de passe incorrect" });
           const accessToken = generateAccessToken(user);
           const renewToken = generateRenewToken(user);
           res.status(200).json({
@@ -109,7 +109,7 @@ const updateUser = (req, res) => {
   const { id } = req.params;
   const body = req.body;
 
-  if (error) return res.status(401).json(error.details[0].message);
+  if (error) return res.status(400).json(error.details[0].message);
 
   User.findByPk(id).then((user) => {
     if (!user) return res.status(404).json({ message: "Cet utilisateur n'existe pas ..." });

@@ -1,0 +1,45 @@
+.card {
+  height: 22vh;
+  box-shadow: 0px 0px 50px -5px rgba(0, 0, 0, 0.75);
+  transition: height 0.3s;
+}
+
+.card:hover {
+  cursor: pointer;
+  height: 24vh;
+}
+
+.myInput:hover {
+  border-color: #64b5f6 !important;
+}
+
+input[type="file"]::file-selector-button {
+  background-color: #64b5f6;
+  color: #303030;
+  font-weight: 500;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type="file"] {
+  display: flex;
+  flex-direction: column;
+}
+
+#client-header {
+  border-radius: 1px;
+}
+
+#client-infos {
+  border: 2px solid #64b5f6;
+}
+
+#back-button {
+  transition: font-size 0.3s;
+}
+
+#back-button:hover {
+  font-size: 3.25rem;
+}
