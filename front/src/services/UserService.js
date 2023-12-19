@@ -38,8 +38,21 @@ class UserService {
       });
       return result.data;
     } catch (err) {
-      console.log(err);
-      return false;
+      const res = err?.response;
+      if (res?.status === 400) {
+        if (typeof res?.data === "string") {
+          if (res?.data.includes("empty")) {
+            return "Au moins un des champs est vide.";
+          }
+          if (res?.data === '"password" length must be at least 8 characters long') {
+            return "Le mot de passe doit contenir entre 8 et 20 caractères.";
+          }
+          if (res?.data === '"mail" must be a valid email') {
+            return "Adresse email non valide.";
+          }
+        }
+      }
+      return "Une erreur est survenue.";
     }
   }
 }

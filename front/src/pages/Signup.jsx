@@ -2,27 +2,34 @@ import { useState } from "react";
 import MyInput from "../components/MyInput";
 import Title from "../components/title";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@chakra-ui/react";
+import { Button, useDisclosure } from "@chakra-ui/react";
 import AuthService from "../services/AuthService";
+import ErrorAlert from "../components/ErrorAlert";
 
 export default function Signup() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   async function handleSignupForm(e) {
     e.preventDefault();
     const auth = new AuthService();
     const data = await auth.signup(firstname, lastname, email, password);
-    if (data) {
+    if (typeof data === "object") {
       navigate("/signin");
+    } else {
+      setErrorMessage(data);
+      onOpen();
     }
   }
 
   return (
     <div id="page-signup" className="h-screen flex flex-col justify-center items-center">
+      <ErrorAlert errorMessage={errorMessage} isOpen={isOpen} onClose={onClose}></ErrorAlert>
       <div id="title-container" className="h-1/6">
         <Title></Title>
       </div>

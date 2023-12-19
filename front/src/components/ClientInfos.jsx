@@ -1,11 +1,14 @@
 /* eslint-disable react/prop-types */
-import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Heading } from "@chakra-ui/react";
+import { Avatar, Button, Card, CardBody, CardFooter, CardHeader, Heading, useDisclosure } from "@chakra-ui/react";
 import utils from "../utils";
 import MyInput from "../components/MyInput";
 import { useState } from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import ClientService from "../services/ClientService";
+import ErrorAlert from "./ErrorAlert";
+import SuccessAlert from "./SuccessAlert";
+import { useNavigate } from "react-router-dom";
 
 dayjs.extend(utc);
 
@@ -20,24 +23,43 @@ export default function ClientInfos({ client, onDelete }) {
   const [country, setCountry] = useState(client?.country);
   const [profilePicture, setProfilePicture] = useState(client?.profile_picture);
 
+  const { isOpen: isOpenError, onClose: onCloseError, onOpen: onOpenError } = useDisclosure();
+  const { isOpen: isOpenSuccess, onClose: onCloseSuccess, onOpen: onOpenSuccess } = useDisclosure();
+  const [alertMessage, setAlertMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function updateClient() {
     const clientService = new ClientService();
     const data = await clientService.update(client?.id, lastname, firstname, date, email, address, postalCode, city, country, profilePicture);
-    if (data) {
-      // TODO notif success
-      window.location.reload();
+    setIsLoading(true);
+    if (typeof data === "object") {
+      setAlertMessage("Informations mises à jour !");
+      onOpenSuccess();
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        setAlertMessage(data);
+        onOpenError();
+        setIsLoading(false)
+      }, 1000);
     }
   }
 
   return (
     <div id="client" className="w-full flex justify-center">
+      <SuccessAlert alertMessage={alertMessage} isOpen={isOpenSuccess} onClose={onCloseSuccess}></SuccessAlert>
+      <ErrorAlert alertMessage={alertMessage} isOpen={isOpenError} onClose={onCloseError}></ErrorAlert>
       <Card id="client-infos" bgColor={"secondary"} className="w-2/4 shadow-xl">
         <CardHeader id="client-header" bgColor={"primary"} textColor={"secondary"} className="flex justify-between">
           <Heading>
             {client?.lastname} {client?.firstname}
           </Heading>
-          <Button bgColor={"#E53E3E"} onClick={async () => await onDelete()}><span className="material-symbols-outlined">delete</span></Button>
+          <Button bgColor={"#E53E3E"} onClick={async () => await onDelete()}>
+            <span className="material-symbols-outlined">delete</span>
+          </Button>
         </CardHeader>
         <CardBody id="client-body" className="flex">
           <div id="pp-container" className="w-1/3 p-5">
@@ -75,8 +97,7 @@ export default function ClientInfos({ client, onDelete }) {
             <input accept="image/*" type="file" onChange={async (e) => setProfilePicture(await utils.getUploadedImage(e.target))}></input>
           </div>
           <div id="input-save" className="w-1/2 flex justify-end">
-            <Button bgColor={"primary"} size={"lg"} onClick={async () => await updateClient()}
-            rightIcon={<span className="material-symbols-outlined">save</span>}>
+            <Button isLoading={isLoading} bgColor={"primary"} size={"lg"} onClick={async () => await updateClient()} rightIcon={<span className="material-symbols-outlined">save</span>}>
               Sauvegarder
             </Button>
           </div>

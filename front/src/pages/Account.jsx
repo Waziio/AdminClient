@@ -1,10 +1,12 @@
 import Title from "../components/title";
-import { Button, Heading } from "@chakra-ui/react";
+import { Button, Heading, useDisclosure } from "@chakra-ui/react";
 import MyInput from "../components/MyInput";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import UserService from "../services/UserService";
 import BackButton from "../components/BackButtton";
+import ErrorAlert from "../components/ErrorAlert";
+import SuccessAlert from "../components/SuccessAlert";
 
 export default function Account() {
   const user = useLoaderData();
@@ -12,18 +14,36 @@ export default function Account() {
   const [firstname, setFirstname] = useState(user?.firstname);
   const [email, setEmail] = useState(user?.mail);
   const [password, setPassword] = useState("");
+  const { isOpen: isOpenError, onClose: onCloseError, onOpen: onOpenError } = useDisclosure();
+  const { isOpen: isOpenSuccess, onClose: onCloseSuccess, onOpen: onOpenSuccess } = useDisclosure();
+  const [alertMessage, setAlertMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function updateUser() {
     const userService = new UserService();
     const data = await userService.update(localStorage.getItem("id_user"), lastname, firstname, email, password);
-    if (data) {
-      // TODO : NOTIF SUCCESS
-      window.location.reload();
+    if (typeof data === "object") {
+      setIsLoading(true);
+      setAlertMessage("Informations mises à jour !");
+      onOpenSuccess();
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    } else {
+      setIsLoading(true);
+      setTimeout(() => {
+        setAlertMessage(data);
+        onOpenError();
+        setIsLoading(false);
+      }, 2000);
     }
   }
 
   return (
     <div id="account-page" className="h-screen flex flex-col items-center">
+      <SuccessAlert alertMessage={alertMessage} isOpen={isOpenSuccess} onClose={onCloseSuccess}></SuccessAlert>
+      <ErrorAlert alertMessage={alertMessage} isOpen={isOpenError} onClose={onCloseError}></ErrorAlert>
       <BackButton></BackButton>
       <div id="title-container" className="h-1/4 pt-5">
         <Title></Title>
@@ -37,7 +57,7 @@ export default function Account() {
           <MyInput type={"password"} onChange={(e) => setPassword(e.target.value)} placeholder={"Mot de passe"}></MyInput>
         </div>
         <div id="btn-submit" className="h-1/4">
-          <Button bgColor={"primary"} rightIcon={<span className="material-symbols-outlined">save</span>} onClick={async () => await updateUser()}>
+          <Button isLoading={isLoading} bgColor={"primary"} rightIcon={<span className="material-symbols-outlined">save</span>} onClick={async () => await updateUser()}>
             Sauvegarder
           </Button>
         </div>

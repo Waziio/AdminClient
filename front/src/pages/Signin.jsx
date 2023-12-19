@@ -4,8 +4,8 @@ import AuthService from "../services/AuthService.js";
 import { useState } from "react";
 import Title from "../components/title.jsx";
 import MyInput from "../components/MyInput.jsx";
-import ErrorAlert from "../components/ErrorAlert.jsx";
 import { useDisclosure } from "@chakra-ui/react";
+import ErrorAlert from "../components/ErrorAlert.jsx";
 
 export default function Signin() {
   const [email, setEmail] = useState("");

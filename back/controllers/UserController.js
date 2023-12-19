@@ -10,7 +10,7 @@ const createUser = (req, res) => {
   const body = req.body;
   const { error } = userValidation(req.body).UserValidationSignUp;
 
-  if (error) return res.status(401).json(error.details[0].message);
+  if (error) return res.status(400).json(error.details[0].message);
 
   // Hash du mdp
   bcrypt
@@ -113,6 +113,10 @@ const updateUser = (req, res) => {
 
   User.findByPk(id).then((user) => {
     if (!user) return res.status(404).json({ message: "Cet utilisateur n'existe pas ..." });
+
+    if(body?.password) {
+      body.password = bcrypt.hashSync(body.password, 10)
+    }
 
     User.update(body, { where: { id: id } })
       .then(() => res.status(200).json({ message: "Les informations de l'utilisateur ont été mises à jour !" }))

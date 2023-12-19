@@ -4,19 +4,19 @@ const userValidation = (body) => {
   const UserValidationSignUp = Joi.object({
     lastname: Joi.string().min(1).max(50).trim().required(),
     firstname: Joi.string().min(1).max(50).trim().required(),
-    mail: Joi.string().min(1).max(100).trim().required(),
+    mail: Joi.string().min(1).max(100).email().trim().required(),
     password: Joi.string().min(8).max(20).trim().required()
   });
 
   const UserValidationLogin = Joi.object({
-    mail: Joi.string().min(1).max(100).trim().required(),
+    mail: Joi.string().min(1).max(100).email().trim().required(),
     password: Joi.string().min(8).max(20).trim().required()
   });
 
   const UserValidationUpdate = Joi.object({
     lastname: Joi.string().min(1).max(50).trim(),
     firstname: Joi.string().min(1).max(50).trim(),
-    mail: Joi.string().min(1).max(100).trim(),
+    mail: Joi.string().min(1).max(100).email().trim(),
     password: Joi.string().min(8).max(20).trim()
   });
 

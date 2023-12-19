@@ -1,9 +1,11 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import MyInput from "./MyInput";
 import utils from "../utils";
 import { useState } from "react";
 import ClientService from "../services/ClientService";
 import { useNavigate } from "react-router-dom";
+import SuccessAlert from "./SuccessAlert";
+import ErrorAlert from "./ErrorAlert";
 
 // eslint-disable-next-line react/prop-types
 export function AddClientPopup({ isOpen, onClose }) {
@@ -16,20 +18,37 @@ export function AddClientPopup({ isOpen, onClose }) {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
+  const { isOpen: isOpenError, onClose: onCloseError, onOpen: onOpenError } = useDisclosure();
+  const { isOpen: isOpenSuccess, onClose: onCloseSuccess, onOpen: onOpenSuccess } = useDisclosure();
+  const [alertMessage, setAlertMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   async function addClient() {
+    setIsLoading(true);
     const clientService = new ClientService();
     const data = await clientService.create(lastname, firstname, date, email, address, postalCode, city, country, profilePicture);
-    if (data) {
-      navigate("/client")
-      onClose();
+    if (typeof data === "object") {
+      setAlertMessage("Client ajouté !");
+      onOpenSuccess();
+      setTimeout(() => {
+        navigate("/client");
+        onClose();
+      }, 2000);
+    } else {
+      setTimeout(() => {
+        setAlertMessage(data);
+        onOpenError();
+        setIsLoading(false);
+      }, 0);
     }
   }
 
   return (
     <>
+      <SuccessAlert alertMessage={alertMessage} isOpen={isOpenSuccess} onClose={onCloseSuccess}></SuccessAlert>
+      <ErrorAlert alertMessage={alertMessage} isOpen={isOpenError} onClose={onCloseError}></ErrorAlert>
       <Modal isCentered={true} size={"3xl"} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent bgColor={"secondary"}>
@@ -52,7 +71,7 @@ export function AddClientPopup({ isOpen, onClose }) {
           </ModalBody>
 
           <ModalFooter>
-            <Button bgColor={"primary"} rightIcon={<span className="material-symbols-outlined">person_add</span>} mr={3} onClick={async () => await addClient()}>
+            <Button isLoading={isLoading} bgColor={"primary"} rightIcon={<span className="material-symbols-outlined">person_add</span>} mr={3} onClick={async () => await addClient()}>
               Ajouter
             </Button>
           </ModalFooter>

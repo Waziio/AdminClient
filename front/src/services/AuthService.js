@@ -18,7 +18,7 @@ class AuthService {
         if (err?.response?.data?.message) {
           return "Adresse email ou mot de passe incorrect.";
         } else {
-          const data = err?.response?.data
+          const data = err?.response?.data;
           if (data === '"password" length must be at least 8 characters long') return "Le mot de passe doit contenir au moins 8 caractères.";
           if (typeof data === "string" && data.includes("empty")) return "Au moins un champ est vide.";
         }
@@ -42,8 +42,21 @@ class AuthService {
       });
       return result.data;
     } catch (err) {
-      console.log(err?.response.status);
-      return false;
+      const res = err?.response;
+      if (res?.status === 400) {
+        if (typeof res?.data === "string") {
+          if (res?.data.includes("empty")) {
+            return "Au moins un des champs est vide.";
+          }
+          if (res?.data === '"password" length must be at least 8 characters long') {
+            return "Le mot de passe doit contenir entre 8 et 20 caractères.";
+          }
+          if (res?.data === '"mail" must be a valid email') {
+            return "Adresse email non valide.";
+          }
+        }
+      }
+      return "Une erreur est survenue.";
     }
   }
 }

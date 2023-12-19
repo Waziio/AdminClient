@@ -60,7 +60,16 @@ class ClientService {
       return result.data;
     } catch (err) {
       console.log(err);
-      return false;
+      const res = err?.response;
+      if (res?.status === 400) {
+        const data = res?.data;
+        if (typeof data === "string") {
+          if (data.includes("empty")) return "Au moins un des champs est vide.";
+          if (data.includes('"date" must be less than or equal')) return "Un client doit avoir minimum 18 ans.";
+          if (data === '"mail" must be a valid email') return "Adresse email invalide.";
+        }
+      }
+      return "Une erreur est survenue.";
     }
   }
 
@@ -87,7 +96,16 @@ class ClientService {
       return result.data;
     } catch (err) {
       console.log(err);
-      return false;
+      const res = err?.response;
+      if (res?.status === 400) {
+        const data = res?.data;
+        if (typeof data === "string") {
+          if (data.includes("empty")) return "Au moins un des champs est vide.";
+          if (data.includes('"date" must be less than or equal')) return "Un client doit avoir minimum 18 ans.";
+          if (data === '"mail" must be a valid email') return "Adresse email invalide.";
+        }
+      }
+      return "Une erreur est survenue.";
     }
   }
 
