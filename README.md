@@ -1,9 +1,6 @@
 # AdminClient
 ## Intro
-
-This project was my first experience with VueJS and with Express. (Finished on June 2023)
-
-The front folder contains a VueJS app, using PrimeVue components.  
+The front folder contains a React app, using ChakraUI components and Tailwind CSS.  
 The back folder contains my first API, made with Express, Sequelize and MySQL.
 
 You can create an account, log in (using JWT), view and administer customer data.
