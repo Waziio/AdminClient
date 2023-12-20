@@ -26,7 +26,7 @@ export const generateAccessToken = (user) => {
     firstname: user.firstname,
     mail: user.mail,
   }
-  return jwt.sign({ user: sign }, config.SECRET_KEY, { expiresIn: "30s" });
+  return jwt.sign({ user: sign }, config.SECRET_KEY, { expiresIn: "1h" });
 };
 
 
@@ -37,5 +37,5 @@ export const generateRenewToken = (user) => {
     firstname: user.firstname,
     mail: user.mail,
   }
-  return jwt.sign({ user: sign }, config.SECRET_KEY, { expiresIn: "30s" });
+  return jwt.sign({ user: sign }, config.SECRET_KEY, { expiresIn: "1d" });
 };
