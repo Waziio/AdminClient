@@ -26,7 +26,6 @@ const getOneClient = (req, res) => {
 // POST /client
 const createClient = (req, res) => {
   const { error } = clientValidation(req.body).ClientValidationCreate;
-  console.log(error)
   if (error) return res.status(400).json(error.details[0].message);
 
   Client.create({ ...req.body })

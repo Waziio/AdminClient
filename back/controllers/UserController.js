@@ -66,14 +66,14 @@ const renewToken = (req, res) => {
     return res.status(401).json({ message: "token_missing" });
   }
 
-  jwt.verify(token, config.RENEW_SECRET_KEY, (err, user) => {
+  jwt.verify(token, config.SECRET_KEY, (err, user) => {
     if (err) {
       return res.status(401).json({ message: "token_invalid" });
     }
     User.findByPk(user.id).then(() => {
       delete user.iat;
       delete user.exp;
-      const renew_token = generateAccessToken(user);
+      const renew_token = generateRenewToken(user);
       res.json({ token: renew_token });
     });
   });

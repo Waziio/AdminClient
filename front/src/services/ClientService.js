@@ -16,7 +16,6 @@ class ClientService {
       });
       return result.data;
     } catch (err) {
-      console.log(err);
       return false;
     }
   }
@@ -32,7 +31,6 @@ class ClientService {
       });
       return result.data;
     } catch (err) {
-      console.log(err);
       return false;
     }
   }
@@ -59,8 +57,10 @@ class ClientService {
       });
       return result.data;
     } catch (err) {
-      console.log(err);
       const res = err?.response;
+      if (res?.status === 401) {
+        return "unauthorized";
+      }
       if (res?.status === 400) {
         const data = res?.data;
         if (typeof data === "string") {
@@ -95,8 +95,10 @@ class ClientService {
       });
       return result.data;
     } catch (err) {
-      console.log(err);
       const res = err?.response;
+      if (res?.status === 401) {
+        return "unauthorized";
+      }
       if (res?.status === 400) {
         const data = res?.data;
         if (typeof data === "string") {
@@ -120,7 +122,9 @@ class ClientService {
       });
       return result.data;
     } catch (err) {
-      console.log(err);
+      if (err?.response?.status === 401) {
+        return "unauthorized";
+      }
       return false;
     }
   }

@@ -20,7 +20,6 @@ class Utils {
     });
   }
   async getUploadedImage(event) {
-    console.log("ici");
     try {
       let image = event.files[0];
       let encode = await this.convertToB64(image);

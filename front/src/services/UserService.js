@@ -16,7 +16,6 @@ class UserService {
       });
       return result.data;
     } catch (err) {
-      console.log(err);
       return false;
     }
   }
@@ -39,6 +38,9 @@ class UserService {
       return result.data;
     } catch (err) {
       const res = err?.response;
+      if(res?.status === 401) {
+        return "unauthorized"
+      }
       if (res?.status === 400) {
         if (typeof res?.data === "string") {
           if (res?.data.includes("empty")) {

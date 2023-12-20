@@ -9,6 +9,7 @@ import ClientService from "./services/ClientService";
 import Client from "./pages/Client";
 import Account from "./pages/Account";
 import UserService from "./services/UserService";
+import AuthRoute from "./components/AuthRoute";
 
 const router = createBrowserRouter([
   { path: "/", element: <Navigate to="/client" replace /> },
@@ -16,38 +17,26 @@ const router = createBrowserRouter([
   { path: "/signup", element: <Signup></Signup> },
   {
     path: "/client",
-    element: <Home></Home>,
+    element: <AuthRoute component={<Home></Home>}></AuthRoute>,
     loader: () => {
-      try {
-        const clientService = new ClientService();
-        return clientService.getAll();
-      } catch (err) {
-        console.log(err);
-      }
+      const clientService = new ClientService();
+      return clientService.getAll();
     },
   },
   {
     path: "/client/:id",
-    element: <Client></Client>,
+    element: <AuthRoute component={<Client></Client>}></AuthRoute>,
     loader: ({ params }) => {
-      try {
-        const clientService = new ClientService();
-        return clientService.getById(params?.id);
-      } catch (err) {
-        console.log(err);
-      }
+      const clientService = new ClientService();
+      return clientService.getById(params?.id);
     },
   },
   {
     path: "/account",
-    element: <Account></Account>,
+    element: <AuthRoute component={<Account></Account>}></AuthRoute>,
     loader: () => {
-      try {
-        const userService = new UserService();
-        return userService.getById(localStorage.getItem("id_user"));
-      } catch (err) {
-        console.log(err);
-      }
+      const userService = new UserService();
+      return userService.getById(localStorage.getItem("id_user"));
     },
   },
 ]);
@@ -71,7 +60,7 @@ const theme = extendTheme({
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <RouterProvider router={router} />
+      <RouterProvider router={router}></RouterProvider>
     </ChakraProvider>
   );
 }

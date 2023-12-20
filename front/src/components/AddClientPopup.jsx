@@ -36,6 +36,9 @@ export function AddClientPopup({ isOpen, onClose }) {
         navigate("/client");
         onClose();
       }, 2000);
+    } else if (data === "unauthorized") {
+      localStorage.clear();
+      navigate("/signin");
     } else {
       setTimeout(() => {
         setAlertMessage(data);

@@ -39,11 +39,14 @@ export default function ClientInfos({ client, onDelete }) {
       setTimeout(() => {
         navigate("/");
       }, 2000);
+    } else if (data === "unauthorized") {
+      localStorage.clear();
+      navigate("/signin");
     } else {
       setTimeout(() => {
         setAlertMessage(data);
         onOpenError();
-        setIsLoading(false)
+        setIsLoading(false);
       }, 1000);
     }
   }

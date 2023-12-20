@@ -19,9 +19,8 @@ export default function Signin() {
     const auth = new AuthService();
     const data = await auth.signin(email, password);
     if (typeof data === "object") {
+      localStorage.clear()
       localStorage.setItem("accessToken", data?.token);
-      localStorage.setItem("renewToken", data?.renew_token);
-      localStorage.setItem("isConnected", true);
       localStorage.setItem("id_user", data?.id);
       localStorage.setItem("lastname", data?.lastname);
       localStorage.setItem("firstname", data?.firstname);

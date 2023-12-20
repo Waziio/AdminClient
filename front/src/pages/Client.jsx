@@ -1,27 +1,36 @@
 import { Await, useLoaderData, useNavigate } from "react-router-dom";
 import Title from "../components/title";
-import { Suspense } from "react";
-import { Spinner } from "@chakra-ui/react";
+import { Suspense, useState } from "react";
+import { Spinner, useDisclosure } from "@chakra-ui/react";
 import ClientInfos from "../components/ClientInfos";
 import ClientService from "../services/ClientService";
 import BackButton from "../components/BackButtton";
+import ErrorAlert from "../components/ErrorAlert";
 
 export default function Client() {
   const client = useLoaderData();
   const navigate = useNavigate();
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const [alertMessage, setAlertMessage] = useState("");
 
   async function deleteClient() {
     const clientService = new ClientService();
     const data = await clientService.delete(client?.id);
-    if (data) {
-      // TODO NOTIF SUCCESS
+    if (typeof data === "object") {
       navigate("/client");
+    } else if (data === "unauthorized") {
+      localStorage.clear();
+      navigate("/signin");
+    } else {
+      setAlertMessage("Une erreur est survenue.");
+      onOpen();
     }
   }
 
   return (
     <div id="client-page" className="h-screen">
-        <BackButton></BackButton>
+      <ErrorAlert alertMessage={alertMessage} isOpen={isOpen} onClose={onClose}></ErrorAlert>
+      <BackButton></BackButton>
       <div id="title-container" className="h-1/4 pt-5">
         <Title></Title>
       </div>

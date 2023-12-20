@@ -4,5 +4,4 @@ dotenv.config();
 
 export const config = {
   SECRET_KEY: process.env.SECRET_KEY,
-  RENEW_SECRET_KEY: process.env.RENEW_SECRET_KEY
 };

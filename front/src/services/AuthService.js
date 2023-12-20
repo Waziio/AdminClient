@@ -59,6 +59,21 @@ class AuthService {
       return "Une erreur est survenue.";
     }
   }
+
+  async renew(accessToken) {
+    try {
+      const result = await axios({
+        url: "http://localhost:8000/renew",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      return result.data;
+    } catch (err) {
+      return false;
+    }
+  }
 }
 
 export default AuthService;
