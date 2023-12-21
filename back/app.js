@@ -1,7 +1,6 @@
 import express from "express";
 import mountRoutes from "./routes/routes.js";
 import db from "./db.js";
-import {} from "./middlewares/auth.js";
 import cors from "cors";
 
 const app = express();
