@@ -21,7 +21,7 @@ export default function ClientInfos({ client, onDelete }) {
   const [postalCode, setPostalCode] = useState(client?.postalcode);
   const [city, setCity] = useState(client?.city);
   const [country, setCountry] = useState(client?.country);
-  const [profilePicture, setProfilePicture] = useState(client?.profile_picture);
+  const [profilePicture, setProfilePicture] = useState(null);
 
   const { isOpen: isOpenError, onClose: onCloseError, onOpen: onOpenError } = useDisclosure();
   const { isOpen: isOpenSuccess, onClose: onCloseSuccess, onOpen: onOpenSuccess } = useDisclosure();
@@ -66,7 +66,7 @@ export default function ClientInfos({ client, onDelete }) {
         </CardHeader>
         <CardBody id="client-body" className="flex">
           <div id="pp-container" className="w-1/3 p-5">
-            <Avatar src={utils.b64ToJpeg(profilePicture)} className="profile-picture shadow-lg" size={"full"}></Avatar>
+            <Avatar src={utils.b64ToJpeg(client?.profile_picture)} className="profile-picture shadow-lg" size={"full"}></Avatar>
           </div>
           <div id="infos" className="w-2/3 p-5 grid grid-cols-2 gap-x-14 text-third">
             <div id="lastname" className="w-full flex justify-center">

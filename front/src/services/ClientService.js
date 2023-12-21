@@ -90,9 +90,9 @@ class ClientService {
           postalcode: postalCode,
           city: city,
           country: country,
-          profile_picture: profile_picture,
         },
       });
+      if (profile_picture) result["data"]["profile_picture"] = profile_picture;
       return result.data;
     } catch (err) {
       const res = err?.response;
